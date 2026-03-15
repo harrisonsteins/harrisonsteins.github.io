@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harrison Steins, DO, MS, MSc, FAWM — Emergency Medicine &amp; Austere Care</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:#0a1520;--deep:#0d1f35;--slate:#1a3550;--teal:#0b7f76;--teal-lt:#14b8a6;
+      --ice:#e0f7f5;--sand:#f7f3ee;--warm:#ede8df;--ember:#c45c2a;--muted:#607080;--white:#ffffff;--r:5px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Syne',sans-serif;background:var(--sand);color:var(--ink);overflow-x:hidden;line-height:1.7}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;background:rgba(10,21,32,0.97);border-bottom:1px solid rgba(20,184,166,0.18);backdrop-filter:blur(10px)}
+    .nav-logo{font-family:'Cormorant Garamond',serif;color:#fff;font-size:1.15rem;font-weight:600}
+    .nav-logo span{color:var(--teal-lt)}
+    .nav-links{display:flex;gap:1.8rem;list-style:none}
+    .nav-links a{color:rgba(255,255,255,0.65);text-decoration:none;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;transition:color .2s}
+    .nav-links a:hover{color:var(--teal-lt)}
+    .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+    .hamburger span{display:block;width:22px;height:2px;background:#fff}
+    .mob-menu{display:none;position:fixed;top:62px;left:0;right:0;z-index:199;background:rgba(10,21,32,0.98);padding:1.8rem 2rem;flex-direction:column;gap:1.4rem;border-bottom:1px solid rgba(20,184,166,0.2)}
+    .mob-menu.open{display:flex}
+    .mob-menu a{color:rgba(255,255,255,.8);font-size:1rem;font-weight:600;text-decoration:none}
+
+    /* HERO */
+    #hero{min-height:100vh;padding:100px 3rem 5rem;background:var(--ink);display:flex;align-items:center;position:relative;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 85% 45%,rgba(11,127,118,.22) 0%,transparent 65%),radial-gradient(ellipse 50% 50% at 5% 90%,rgba(196,92,42,.12) 0%,transparent 60%)}
+    .hero-grid{position:absolute;inset:0;opacity:.035;background-image:linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px);background-size:60px 60px}
+    .hero-inner{position:relative;z-index:2;max-width:1140px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 360px;gap:4rem;align-items:center}
+    .hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:1.6rem}
+    .ey-line{width:32px;height:2px;background:var(--teal-lt)}
+    .ey-txt{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--teal-lt);text-transform:uppercase}
+    .hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:700;color:#fff;line-height:1.05;margin-bottom:.4rem}
+    .hero-name em{color:var(--teal-lt);font-style:normal;display:block}
+    .hero-creds{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:rgba(255,255,255,.4);letter-spacing:.15em;margin-bottom:1.8rem}
+    .hero-bio{font-size:1rem;color:rgba(255,255,255,.68);max-width:560px;line-height:1.85;margin-bottom:2.4rem}
+    .hero-bio strong{color:rgba(255,255,255,.9);font-weight:600}
+    .hero-btns{display:flex;gap:.9rem;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 24px;border-radius:var(--r);font-size:.8rem;font-weight:700;letter-spacing:.07em;text-decoration:none;cursor:pointer;border:none;transition:all .22s;font-family:'Syne',sans-serif}
+    .btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-lt);transform:translateY(-2px);box-shadow:0 6px 20px rgba(20,184,166,.3)}
+    .btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.28)}.btn-ghost:hover{border-color:var(--teal-lt);color:var(--teal-lt);transform:translateY(-2px)}
+    .btn-ember{background:var(--ember);color:#fff}.btn-ember:hover{background:#d96b3a;transform:translateY(-2px);box-shadow:0 6px 20px rgba(196,92,42,.35)}
+    .hero-card{position:relative}
+    .photo-frame{width:100%;aspect-ratio:3/4;border-radius:12px;background:linear-gradient(145deg,var(--slate),var(--ink));border:1px solid rgba(20,184,166,.2);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+    .photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
+    .photo-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:rgba(255,255,255,.35);font-size:.82rem;text-align:center;padding:2rem}
+    .photo-ph .icon{font-size:2.5rem;opacity:.5}
+    .photo-up-btn{position:absolute;bottom:12px;right:12px;background:rgba(11,127,118,.85);color:#fff;border:none;padding:7px 14px;border-radius:4px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:background .2s}
+    .photo-up-btn:hover{background:var(--teal-lt)}
+    .hero-badge{position:absolute;bottom:-14px;left:-14px;background:var(--ember);color:#fff;padding:12px 16px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.68rem;line-height:1.6;text-align:center;box-shadow:0 8px 24px rgba(196,92,42,.4)}
+
+    /* SECTION BASE */
+    section{padding:88px 3rem}
+    .si{max-width:1140px;margin:0 auto}
+    .sec-tag{font-family:'JetBrains Mono',monospace;font-size:.67rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem}
+    .sec-tag.lt{color:var(--teal-lt)}
+    .sec-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2.1rem,3.5vw,3rem);font-weight:700;color:var(--ink);line-height:1.12;margin-bottom:.8rem}
+    .sec-h.lt{color:#fff}
+    .sec-bar{width:42px;height:3px;background:var(--teal);border-radius:2px;margin-bottom:3rem}
+
+    /* ABOUT */
+    #about{background:#fff}
+    .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:5rem;align-items:start}
+    .about-body p{color:#3a4d60;font-size:.97rem;margin-bottom:1.2rem;line-height:1.85}
+    .about-body strong{color:var(--ink);font-weight:700}
+    .tags{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:2rem}
+    .tag{padding:4px 13px;border-radius:20px;font-size:.73rem;font-weight:600;background:rgba(11,127,118,.09);color:var(--teal);border:1px solid rgba(11,127,118,.2);letter-spacing:.05em}
+    .sidebar{display:flex;flex-direction:column;gap:1.1rem}
+    .ibox{padding:1.2rem 1.5rem;background:var(--sand);border-radius:var(--r);border-left:3px solid var(--teal)}
+    .ibox h4{font-size:.67rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+    .ibox p,.ibox a{font-size:.9rem;color:var(--ink);font-weight:600;text-decoration:none}
+    .ibox a{color:var(--teal)}.ibox a:hover{text-decoration:underline}
+    /* gallery */
+    .gallery-wrap{margin-top:3.5rem}
+    .gallery-wrap h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--ink);margin-bottom:1.2rem;font-weight:600}
+    .g-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+    .g-slot{aspect-ratio:1;border-radius:8px;overflow:hidden;background:var(--warm);border:2px dashed rgba(11,127,118,.25);position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .g-slot:hover{border-color:var(--teal);background:rgba(11,127,118,.06)}
+    .g-slot img{width:100%;height:100%;object-fit:cover;display:block}
+    .g-slot .g-lbl{font-size:.7rem;color:rgba(11,127,118,.6);font-weight:600;text-align:center;padding:.5rem}
+    .g-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+    /* CV */
+    #cv{background:var(--sand)}
+    .cv-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem}
+    .cv-sec-t{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--slate);margin-bottom:1.4rem;padding-bottom:.5rem;border-bottom:2px solid var(--teal)}
+    .cv-b{margin-bottom:1.7rem;padding-left:1.1rem;border-left:2px solid rgba(11,127,118,.2);transition:border-color .2s}
+    .cv-b:hover{border-left-color:var(--teal)}
+    .cv-yr{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--teal);font-weight:500;margin-bottom:.15rem}
+    .cv-t{font-weight:700;color:var(--ink);font-size:.93rem}
+    .cv-s{font-size:.82rem;color:var(--muted);margin-top:.15rem}
+    .cv-n{font-size:.8rem;color:var(--muted);font-style:italic;margin-top:.2rem}
+    .cv-dl{margin-top:3.5rem;padding:2rem 2.5rem;background:#fff;border-radius:10px;border:2px dashed rgba(11,127,118,.3);text-align:center}
+    .cv-dl p{color:var(--muted);font-size:.88rem;margin-bottom:1.2rem}
+    .cv-dl small{display:block;margin-top:.8rem;font-size:.75rem;color:var(--muted)}
+    #cv-file-input{display:none}
+    #cv-loaded{display:none;margin-top:.6rem;font-size:.8rem;color:var(--teal)}
+
+    /* RESEARCH */
+    #research{background:var(--ink)}
+    .r-intro{color:rgba(255,255,255,.6);font-size:.97rem;max-width:680px;margin-bottom:3rem;line-height:1.85}
+    .pub-list{display:flex;flex-direction:column;gap:1rem}
+    .pub{display:grid;grid-template-columns:70px 1fr;gap:1.4rem;align-items:start;padding:1.5rem 1.8rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);transition:all .22s}
+    .pub:hover{background:rgba(20,184,166,.08);border-color:rgba(20,184,166,.3);transform:translateX(5px)}
+    .pub-yr{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--teal-lt);background:rgba(20,184,166,.12);border:1px solid rgba(20,184,166,.25);padding:4px 8px;border-radius:3px;text-align:center;white-space:nowrap;margin-top:3px}
+    .pub-yr.pend{color:#f0a04b;background:rgba(240,160,75,.1);border-color:rgba(240,160,75,.25)}
+    .pub-t{font-size:.93rem;font-weight:700;color:#fff;margin-bottom:.3rem;line-height:1.45}
+    .pub-m{font-size:.79rem;color:rgba(255,255,255,.42)}
+    .pub-m em{color:var(--teal-lt);font-style:normal;font-weight:600}
+    .pub-doi{display:inline-block;margin-top:.4rem;font-size:.75rem;color:var(--teal-lt);text-decoration:none;font-family:'JetBrains Mono',monospace;opacity:.75}
+    .pub-doi:hover{opacity:1;text-decoration:underline}
+    .rp-wrap{margin-top:4rem}
+    .rp-h{font-family:'Cormorant Garamond',serif;color:#fff;font-size:1.6rem;margin-bottom:.4rem}
+    .rp-sub{color:rgba(255,255,255,.42);font-size:.88rem;margin-bottom:2rem}
+    .rp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+    .rp-c{padding:1.5rem 1.8rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);transition:all .22s}
+    .rp-c:hover{background:rgba(20,184,166,.07);border-color:rgba(20,184,166,.25)}
+    .rp-c-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem}
+    .rp-c-t{font-weight:700;color:#fff;font-size:.9rem;line-height:1.4;max-width:82%}
+    .badge{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:3px 9px;border-radius:3px;letter-spacing:.07em;flex-shrink:0}
+    .b-act{background:rgba(20,184,166,.15);color:var(--teal-lt);border:1px solid rgba(20,184,166,.3)}
+    .b-pi{background:rgba(196,92,42,.15);color:#e88054;border:1px solid rgba(196,92,42,.3)}
+    .b-pub{background:rgba(100,160,255,.12);color:#8bb8ff;border:1px solid rgba(100,160,255,.25)}
+    .rp-c p{font-size:.8rem;color:rgba(255,255,255,.42);line-height:1.65}
+
+    /* AUSTERE */
+    #austere{background:linear-gradient(160deg,#071522 0%,#0a2020 100%);position:relative;overflow:hidden}
+    .aust-pat{position:absolute;inset:0;opacity:.03;background-image:repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);background-size:18px 18px}
+    .aust-in{position:relative;z-index:2}
+    .aust-lede{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,2.5vw,2rem);color:rgba(255,255,255,.88);max-width:760px;line-height:1.5;margin-bottom:1.2rem}
+    .aust-lede em{color:var(--teal-lt);font-style:normal}
+    .aust-sub{color:rgba(255,255,255,.5);max-width:660px;margin-bottom:3.5rem;font-size:.95rem;line-height:1.85}
+    .ap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-bottom:3.5rem}
+    .ap-c{background:rgba(255,255,255,.04);border:1px solid rgba(20,184,166,.15);border-radius:10px;padding:2rem 1.8rem;transition:all .25s}
+    .ap-c:hover{background:rgba(20,184,166,.08);border-color:rgba(20,184,166,.4);transform:translateY(-3px)}
+    .ap-icon{font-size:2rem;margin-bottom:1rem}
+    .ap-c h4{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.6rem}
+    .ap-c p{font-size:.82rem;color:rgba(255,255,255,.48);line-height:1.7}
+    .proj-list{display:flex;flex-direction:column;gap:.9rem}
+    .proj-row{display:grid;grid-template-columns:auto 1fr auto;gap:1.2rem;align-items:start;padding:1.2rem 1.5rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);transition:all .2s}
+    .proj-row:hover{background:rgba(20,184,166,.06);border-color:rgba(20,184,166,.2)}
+    .pdot{width:9px;height:9px;border-radius:50%;background:var(--teal);margin-top:7px;flex-shrink:0}
+    .proj-row h5{font-size:.9rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+    .proj-row p{font-size:.8rem;color:rgba(255,255,255,.42)}
+
+    /* EXPEDITIONS */
+    #expeditions{background:var(--deep)}
+    .exp-intro{color:rgba(255,255,255,.55);font-size:.95rem;max-width:680px;margin-bottom:3rem;line-height:1.85}
+    .exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+    .exp-c{border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.07);transition:all .25s;background:rgba(255,255,255,.04)}
+    .exp-c:hover{transform:translateY(-4px);border-color:rgba(20,184,166,.4);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+    .exp-photo{width:100%;aspect-ratio:16/10;overflow:hidden;background:linear-gradient(145deg,var(--slate),var(--ink));position:relative;display:flex;align-items:center;justify-content:center}
+    .exp-photo img{width:100%;height:100%;object-fit:cover}
+    .exp-ph{color:rgba(255,255,255,.25);font-size:.75rem;text-align:center;padding:1rem}
+    .exp-photo input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+    .exp-add{position:absolute;bottom:8px;right:8px;background:rgba(11,127,118,.8);color:#fff;border:none;padding:5px 10px;border-radius:3px;font-size:.65rem;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;pointer-events:all}
+    .exp-body{padding:1.4rem 1.5rem}
+    .exp-type{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.14em;color:var(--teal-lt);text-transform:uppercase;margin-bottom:.5rem}
+    .exp-body h4{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.4rem}
+    .exp-body p{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.65}
+    .exp-cert{display:inline-block;margin-top:.8rem;font-size:.7rem;background:rgba(20,184,166,.12);color:var(--teal-lt);padding:3px 10px;border-radius:3px;border:1px solid rgba(20,184,166,.25)}
+
+    /* LECTURES */
+    #lectures{background:#fff}
+    .lec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+    .lec-c{border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:1.5rem;transition:all .2s;position:relative;overflow:hidden}
+    .lec-c::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--teal);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+    .lec-c:hover{box-shadow:0 8px 28px rgba(0,0,0,.09);transform:translateY(-2px)}.lec-c:hover::after{transform:scaleX(1)}
+    .lec-type{font-family:'JetBrains Mono',monospace;font-size:.63rem;letter-spacing:.14em;color:var(--teal);text-transform:uppercase;margin-bottom:.6rem}
+    .lec-c h4{font-size:.9rem;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:.4rem}
+    .lec-c p{font-size:.79rem;color:var(--muted);line-height:1.6}
+    .lec-date{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);margin-top:.8rem}
+    .lec-cta{margin-top:3rem;padding:1.5rem 2rem;background:var(--sand);border-radius:var(--r);border-left:3px solid var(--ember);font-size:.9rem;color:var(--muted)}
+    .lec-cta strong{color:var(--ink)}.lec-cta a{color:var(--teal);font-weight:700;text-decoration:none}
+
+    /* CONTACT */
+    #contact{background:var(--slate)}
+    .c-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+    .c-left h2{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:#fff;margin-bottom:1rem;font-weight:700}
+    .c-left p{color:rgba(255,255,255,.58);line-height:1.85;font-size:.95rem;margin-bottom:2rem}
+    .c-items{display:flex;flex-direction:column;gap:.9rem}
+    .c-item{display:flex;align-items:center;gap:1rem;padding:.95rem 1.2rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r)}
+    .c-icon{font-size:1.2rem;width:32px;text-align:center;flex-shrink:0}
+    .c-lbl{font-size:.67rem;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.12em;margin-bottom:2px}
+    .c-val{font-size:.88rem;color:#fff;font-weight:600}
+    .c-val a{color:var(--teal-lt);text-decoration:none}.c-val a:hover{text-decoration:underline}
+    .f-wrap{display:flex;flex-direction:column;gap:1rem}
+    .f-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .f-grp{display:flex;flex-direction:column;gap:5px}
+    .f-grp label{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.45);font-weight:600}
+    .f-grp input,.f-grp select,.f-grp textarea{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:10px 13px;color:#fff;font-family:'Syne',sans-serif;font-size:.88rem;outline:none;resize:vertical;transition:border-color .2s}
+    .f-grp input::placeholder,.f-grp textarea::placeholder{color:rgba(255,255,255,.28)}
+    .f-grp input:focus,.f-grp select:focus,.f-grp textarea:focus{border-color:var(--teal-lt);background:rgba(20,184,166,.08)}
+    .f-grp select option{background:var(--slate)}
+    .f-foot{display:flex;align-items:center;justify-content:space-between}
+    .f-note{font-size:.75rem;color:rgba(255,255,255,.3)}
+    #fsuccess{display:none;color:var(--teal-lt);font-size:.85rem;margin-top:.5rem}
+
+    /* FOOTER */
+    footer{background:var(--ink);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid rgba(255,255,255,.06)}
+    footer p{font-size:.78rem;color:rgba(255,255,255,.28)}
+    .f-links{display:flex;gap:1.6rem}
+    .f-links a{font-size:.75rem;color:rgba(255,255,255,.4);text-decoration:none}.f-links a:hover{color:var(--teal-lt)}
+
+    /* REVEAL */
+    .rv{opacity:1;transform:none;transition:opacity .65s ease,transform .65s ease}
+    .rv.vis{opacity:1;transform:none}
+    .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+    /* RESPONSIVE */
+    @media(max-width:1000px){
+      .hero-inner{grid-template-columns:1fr}.hero-card{max-width:320px;margin:2rem auto 0}
+      .about-grid,.c-grid{grid-template-columns:1fr;gap:2.5rem}
+      .cv-grid{grid-template-columns:1fr}
+      .ap-grid,.exp-grid{grid-template-columns:1fr 1fr}
+      .rp-grid{grid-template-columns:1fr}
+      .lec-grid{grid-template-columns:1fr 1fr}
+      .nav-links{display:none}.hamburger{display:flex}
+    }
+    @media(max-width:640px){
+      section{padding:64px 1.5rem}nav{padding:0 1.5rem}
+      .ap-grid,.exp-grid,.lec-grid,.g-grid{grid-template-columns:1fr}
+      .f-row{grid-template-columns:1fr}
+      .f-foot{flex-direction:column;align-items:flex-start;gap:.8rem}
+      footer{flex-direction:column;text-align:center}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Harrison <span>Steins</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li><li><a href="#cv">CV</a></li>
+    <li><a href="#research">Research</a></li><li><a href="#austere">Austere Med</a></li>
+    <li><a href="#expeditions">Expeditions</a></li><li><a href="#lectures">Lectures</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMob()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="#about" onclick="toggleMob()">About</a><a href="#cv" onclick="toggleMob()">CV</a>
+  <a href="#research" onclick="toggleMob()">Research</a><a href="#austere" onclick="toggleMob()">Austere Medicine</a>
+  <a href="#expeditions" onclick="toggleMob()">Expeditions</a><a href="#lectures" onclick="toggleMob()">Lectures</a>
+  <a href="#contact" onclick="toggleMob()">Contact &amp; Hire</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow"><div class="ey-line"></div><div class="ey-txt">Emergency Medicine · Austere Critical Care Research</div></div>
+      <h1 class="hero-name">Harrison<em>Steins</em></h1>
+      <div class="hero-creds">DO &nbsp;·&nbsp; MS &nbsp;·&nbsp; MSc &nbsp;·&nbsp; FAWM</div>
+      <p class="hero-bio">Incoming <strong>Emergency Medicine Resident Physician</strong> and researcher advancing emergency medical care in the world's most austere environments — from wilderness and high-altitude expeditions to low-resource emergency departments worldwide. <strong>Fellow of the Academy of Wilderness Medicine. Explorer Award recipient.</strong></p>
+      <div class="hero-btns">
+        <a href="#research" class="btn btn-teal">View Publications</a>
+        <a href="#austere" class="btn btn-ghost">Austere Medicine</a>
+        <a href="#contact" class="btn btn-ember">Contact Me to Speak</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="photo-frame" id="heroFrame">
+        <img src="images/heroshot.jpg" alt="Harrison Steins"/>
+      </div>
+      <div class="hero-badge">Incoming EM Resident<br>July 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="si">
+    <div class="sec-tag">About</div>
+    <h2 class="sec-h">Physician. Researcher.<br>Educator Without Borders.</h2>
+    <div class="sec-bar"></div>
+    <div class="about-grid">
+      <div class="about-body rv">
+        <p>I am an incoming Emergency Medicine Resident Physician with advanced training at the intersection of critical care, wilderness medicine, and global health. My academic credentials span a <strong>Doctor of Osteopathic Medicine (DO)</strong> from Rocky Vista University, a <strong>Master of Science in Biomedical Science (MS)</strong>, a <strong>Master of Science in Austere Critical Care (MSc)</strong> from the College of Remote and Offshore Medicine in Malta — where my thesis investigated point-of-care ultrasound diagnosis of Swimming-Induced Pulmonary Edema in endurance athletes at altitude — and a <strong>Fellowship in the Academy of Wilderness Medicine (FAWM)</strong>.</p>
+        <p>I am the inaugural <strong>Predoctoral Clinical Ultrasound Scholar</strong> at Rocky Vista University, selected by faculty to develop and teach ultrasound curriculum and pursue clinical research. I currently serve as a <strong>Faculty Lecturer</strong> at the College of Remote and Offshore Medicine for the MSc in Austere Critical Care program, and as a <strong>Wilderness Medicine Instructor</strong> with the Colorado Mountain Club.</p>
+        <p>Prior to medical school, I served as <strong>Medical Logistics Chief</strong> for San Mateo County's COVID-19 Emergency Operations Center — coordinating clinic sites vaccinating 4,000 people/day, totaling 870,000 individuals and 2 million vaccines — and founded the <strong>San Mateo County Medical Reserve Corps</strong>. As Medical Operations Manager for CrowdRx, I designed and operated a <strong>53-foot mobile ICU trailer</strong> with 14 ICU beds and 2 resuscitation bays for mass gathering events including Burning Man.</p>
+        <p>My research has taken me from IronMan races at altitude to an emergency department in Tanzania to mountain medicine conferences across North America and Europe. I bring the same rigor to every setting: <strong>evidence, improvisation, and resourcefulness.</strong></p>
+        <div class="tags">
+          <span class="tag">Emergency Medicine</span><span class="tag">Wilderness Medicine</span>
+          <span class="tag">Austere Critical Care</span><span class="tag">Point-of-Care Ultrasound</span>
+          <span class="tag">High Altitude Medicine</span><span class="tag">SIPE Research</span>
+          <span class="tag">Resource-Limited Settings</span><span class="tag">Global Health</span>
+          <span class="tag">FAWM</span><span class="tag">Medical Education</span>
+          <span class="tag">Expedition Medicine</span><span class="tag">Endurance Sports Medicine</span>
+        </div>
+      </div>
+      <div class="sidebar rv d1">
+        <div class="ibox"><h4>Incoming Role</h4><p>Emergency Medicine Resident Physician — July 2026</p></div>
+        <div class="ibox"><h4>Current Role</h4><p>Predoctoral Clinical Ultrasound Scholar · Rocky Vista University</p></div>
+        <div class="ibox"><h4>Faculty</h4><p>Lecturer — College of Remote &amp; Offshore Medicine, Malta</p></div>
+        <div class="ibox"><h4>Fellowship</h4><p>Fellow, Academy of Wilderness Medicine (FAWM) · WMS</p></div>
+        <div class="ibox"><h4>Award</h4><p>Explorer Award — CU Dept. of Emergency Medicine, Wilderness &amp; Environmental Medicine Section</p></div>
+        <div class="ibox"><h4>Research Focus</h4><p>Austere Critical Care · POCUS · SIPE · High Altitude Medicine</p></div>
+        <div class="ibox"><h4>Speaking Inquiries</h4><p><a href="#contact">Send a message below ↓</a></p></div>
+        <div class="ibox"><h4>Email</h4><p><a href="/cdn-cgi/l/email-protection#8de5ecffffe4fee2e3a3fef9e8e4e3fecdeae0ece4e1a3eee2e0"><span class="__cf_email__" data-cfemail="234b4251514a504c4d0d5057464a4d5063444e424a4f0d404c4e">[email&#160;protected]</span></a></p></div>
+      </div>
+    </div>
+    <div class="gallery-wrap rv">
+      <h3>Field &amp; Clinical Photography</h3>
+      <div class="g-grid" id="gGrid">
+        <div class="g-slot"><img src="images/gallery1.jpg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery2.jpg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery3.jpg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery4.jpeg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery5.jpg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery6.jpg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery7.jpeg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery9.jpeg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery10.jpg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery11.jpg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/gallery12.jpeg" alt="Field photo"/></div>
+        <div class="g-slot"><img src="images/field-clinical.jpeg" alt="Field photo"/></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CV -->
+<section id="cv">
+  <div class="si">
+    <div class="sec-tag">Curriculum Vitae</div>
+    <h2 class="sec-h">Education, Training<br>&amp; Achievements</h2>
+    <div class="sec-bar"></div>
+    <div class="cv-grid">
+      <div>
+        <div class="rv">
+          <div class="cv-sec-t">Education</div>
+          <div class="cv-b"><div class="cv-yr">EXPECTED MAY 2026</div><div class="cv-t">Doctor of Osteopathic Medicine (DO)</div><div class="cv-s">Rocky Vista University College of Osteopathic Medicine — Denver, CO</div></div>
+          <div class="cv-b"><div class="cv-yr">JANUARY 2026</div><div class="cv-t">Master of Science in Austere Critical Care (MSc)</div><div class="cv-s">College of Remote and Offshore Medicine — Pretty Bay, Malta</div><div class="cv-n">Thesis: Altitude, Ultrasound, and Austere Medicine: A Prospective Study of Swimming-Induced Pulmonary Edema in Endurance Athletes</div></div>
+          <div class="cv-b"><div class="cv-yr">MAY 2022</div><div class="cv-t">Master of Science in Biomedical Science (MS)</div><div class="cv-s">Rocky Vista University — St. George, UT</div></div>
+          <div class="cv-b"><div class="cv-yr">MAY 2019</div><div class="cv-t">B.A. Public Health — Focus in Integrative Biology</div><div class="cv-s">University of California, Berkeley</div></div>
+        </div>
+        <div class="rv" style="margin-top:2.5rem">
+          <div class="cv-sec-t">Academic Medicine</div>
+          <div class="cv-b"><div class="cv-yr">JULY 2026 — MAY 2030</div><div class="cv-t">Incoming Emergency Medicine Resident Physician</div><div class="cv-s">Match 2026</div></div>
+          <div class="cv-b"><div class="cv-yr">MARCH 2026 — PRESENT</div><div class="cv-t">University Faculty: Lecturer</div><div class="cv-s">College of Remote and Offshore Medicine</div><div class="cv-n">MSc in Austere Critical Care cohort; sub-course lectures in austere ultrasound</div></div>
+          <div class="cv-b"><div class="cv-yr">OCT 2024 — MAY 2026</div><div class="cv-t">Predoctoral Clinical Ultrasound Scholar (Inaugural)</div><div class="cv-s">Rocky Vista University College of Osteopathic Medicine</div><div class="cv-n">Selected by faculty to pursue advanced clinical ultrasound education, develop and teach curriculum, and pursue clinical and educational research</div></div>
+          <div class="cv-b"><div class="cv-yr">MAR 2023 — JULY 2024</div><div class="cv-t">President — EMRIC &amp; Wilderness Medicine Student Interest Group</div><div class="cv-s">Rocky Vista University</div></div>
+          <div class="cv-b"><div class="cv-yr">SEPT 2017 — MAY 2019</div><div class="cv-t">Undergraduate Instructor</div><div class="cv-s">UC Berkeley School of Public Health — Field Study Internship Program</div></div>
+        </div>
+        <div class="rv" style="margin-top:2.5rem">
+          <div class="cv-sec-t">Selected Work Experience</div>
+          <div class="cv-b"><div class="cv-yr">JAN 2023 — PRESENT</div><div class="cv-t">Wilderness Medicine Instructor</div><div class="cv-s">Colorado Mountain Club — Golden, CO</div></div>
+          <div class="cv-b"><div class="cv-yr">JAN 2020 — AUG 2021</div><div class="cv-t">Medical Logistics Chief</div><div class="cv-s">San Mateo County COVID-19 Emergency Operations Center</div><div class="cv-n">Mobilized clinic sites vaccinating 4,000/day — 870,000 individuals, 2 million vaccines total. Coordinated 4 million pieces of PPE. Mobilized and demobilized an Alternate Care Site housing 400+ COVID-positive patients over 5 months.</div></div>
+          <div class="cv-b"><div class="cv-yr">NOV 2019 — AUG 2021</div><div class="cv-t">Health Emergency Preparedness Manager &amp; MRC Director</div><div class="cv-s">San Mateo County Health Department — EMS Division</div><div class="cv-n">Founded the San Mateo County Medical Reserve Corps. Wrote grants and managed $150,000 budget. Grew organization to 100 members integrated with community disaster and emergency response.</div></div>
+          <div class="cv-b"><div class="cv-yr">MAY 2016 — OCT 2018</div><div class="cv-t">Senior Analyst / Medical Operations Manager</div><div class="cv-s">CrowdRx Inc., A Global Medical Response Company — New York, NY</div><div class="cv-n">Burning Man 2018: 80,000 attendees — 35-bed ER, 10-bed ICU, Pharmacy, 300 staff over 18 days. Designed and operated a 53-ft mobile ICU trailer with 14 ICU beds and 2 resuscitation bays.</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="rv">
+          <div class="cv-sec-t">Certifications &amp; Fellowships</div>
+          <div class="cv-b"><div class="cv-yr">AWARDED</div><div class="cv-t">Fellow of the Academy of Wilderness Medicine (FAWM)</div><div class="cv-s">Wilderness Medical Society</div></div>
+          <div class="cv-b"><div class="cv-yr">COMPLETED</div><div class="cv-t">Wilderness EMT-B · ACLS / BLS</div><div class="cv-s">Also: Technical Rope Rescue · Austere Emergency Care/Prolonged Field Care · Search &amp; Rescue · Swift Water Rescue · Avalanche Education I/II/Rescue (AIARE) · Avalanche Resuscitation</div></div>
+        </div>
+        <div class="rv" style="margin-top:2.5rem">
+          <div class="cv-sec-t">Awards &amp; Honors</div>
+          <div class="cv-b"><div class="cv-yr">AWARDED</div><div class="cv-t">Fellow of the Academy of Wilderness Medicine</div><div class="cv-s">Wilderness Medical Society</div></div>
+          <div class="cv-b"><div class="cv-yr">AWARDED</div><div class="cv-t">Explorer Award</div><div class="cv-s">University of Colorado, Department of Emergency Medicine — Section of Wilderness &amp; Environmental Medicine. Awarded to a student demonstrating outstanding dedication to wilderness medicine research.</div></div>
+          <div class="cv-b"><div class="cv-yr">2024</div><div class="cv-t">First Place — New Innovations in Emergency Medicine</div><div class="cv-s">American College of Osteopathic Emergency Physicians (ACOEP), Orlando, FL</div></div>
+          <div class="cv-b"><div class="cv-yr">2023</div><div class="cv-t">First Place — Original Research &amp; Poster Presentation</div><div class="cv-s">Association of Military Osteopathic Physicians and Surgeons</div></div>
+          <div class="cv-b"><div class="cv-yr">2023</div><div class="cv-t">RVU Student Research Competition Grant</div><div class="cv-s">Rocky Vista University (1 of 8 grants awarded)</div></div>
+          <div class="cv-b"><div class="cv-yr">FEATURED</div><div class="cv-t">High Adventure Healthcare — Publication Feature</div><div class="cv-s">"A Jack of All Trades and Thrills"</div></div>
+        </div>
+        <div class="rv" style="margin-top:2.5rem">
+          <div class="cv-sec-t">Professional Memberships</div>
+          <div class="cv-b"><div class="cv-yr">CURRENT</div><div class="cv-t">Fellow — Wilderness Medical Society (WMS)</div></div>
+          <div class="cv-b"><div class="cv-yr">CURRENT</div><div class="cv-t">Silverton Mountain Medicine Symposium — Faculty</div></div>
+          <div class="cv-b"><div class="cv-yr">CURRENT</div><div class="cv-t">American College of Osteopathic Emergency Physicians (ACOEP)</div></div>
+          <div class="cv-b"><div class="cv-yr">CURRENT</div><div class="cv-t">American College of Emergency Physicians — Student Member (ACEP)</div></div>
+          <div class="cv-b"><div class="cv-yr">CURRENT</div><div class="cv-t">Colorado Mountain Club · National Eagle Scout Association</div></div>
+        </div>
+        <div class="cv-dl rv">
+          <p>Download a full copy of my curriculum vitae, or upload a new version below.</p>
+          <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+            <a href="cv.pdf" class="btn btn-teal" id="cvDlBtn" download>⬇ Download CV (PDF)</a>
+            <button class="btn btn-ghost" style="color:var(--ink);border-color:rgba(0,0,0,.2)" onclick="document.getElementById('cv-file-input').click()">⬆ Replace CV File</button>
+            <input type="file" id="cv-file-input" accept=".pdf" onchange="handleCV(event)"/>
+          </div>
+          <div id="cv-loaded"></div>
+          <small>To activate the download: upload a file named <code>cv.pdf</code> to your GitHub repository alongside index.html</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="si">
+    <div class="sec-tag lt">Research &amp; Publications</div>
+    <h2 class="sec-h lt">Peer-Reviewed Work &amp;<br>Academic Contributions</h2>
+    <div class="sec-bar"></div>
+    <p class="r-intro">My research addresses point-of-care ultrasound, swimming-induced pulmonary edema, austere and resource-limited emergency care, wilderness medicine, and high-altitude physiology. All publications below are linked to their DOIs.</p>
+    <div class="pub-list">
+      <div class="pub rv"><div class="pub-yr">2026</div><div><div class="pub-t">Swimming-Induced Pulmonary Edema: A Scoping Review and Analysis of Epidemiology, Pathophysiology, Diagnostics, Management, and Implications for Resource-Limited Care</div><div class="pub-m"><em>Wilderness &amp; Environmental Medicine</em> · 2026;0(0)</div><a class="pub-doi" href="https://doi.org/10.1177/10806032251414379" target="_blank">doi:10.1177/10806032251414379 ↗</a></div></div>
+      <div class="pub rv"><div class="pub-yr">2025</div><div><div class="pub-t">Novel Approach to Physician Assistant Ultrasound Education: the Fast eFAST</div><div class="pub-m">Steins H., Ryan Z., Kromberg E. et al. · <em>Journal of Ultrasound</em></div><a class="pub-doi" href="https://doi.org/10.1007/s40477-025-01024-9" target="_blank">doi:10.1007/s40477-025-01024-9 ↗</a></div></div>
+      <div class="pub rv"><div class="pub-yr">2025</div><div><div class="pub-t">Prochlorperazine Maleate versus Placebo for the Prophylaxis of Acute Mountain Sickness: A Double-Blind Randomized Controlled Trial</div><div class="pub-m">Small E., Steins H., Musi M., Perry J., Goldberg E., Ryan M., Crawford L., et al. · <em>Journal of Travel Medicine</em></div><a class="pub-doi" href="https://doi.org/10.1093/jtm/taaf044" target="_blank">doi:10.1093/jtm/taaf044 ↗</a></div></div>
+      <div class="pub rv"><div class="pub-yr">2025</div><div><div class="pub-t">Care and Management of US Ski and Snowboard Team Athletes: Implementation of the eFAST</div><div class="pub-m">Ryan Z., Steins H., Miller M. et al. · <em>Discover Education</em> · 4, 235</div><a class="pub-doi" href="https://doi.org/10.1007/s44217-025-00497-4" target="_blank">doi:10.1007/s44217-025-00497-4 ↗</a></div></div>
+      <div class="pub rv"><div class="pub-yr">2025</div><div><div class="pub-t">The Impact of Living at Moderate Altitude in the United States: Epidemiology and Key Research Questions</div><div class="pub-m">Small E., Thomas D., Crawford L., Chatroux I., Steins H., Asori M., Honigman B. · <em>Gerontology</em></div><a class="pub-doi" href="https://doi.org/10.1159/000546192" target="_blank">doi:10.1159/000546192 ↗</a></div></div>
+      <div class="pub rv"><div class="pub-yr">2024</div><div><div class="pub-t">Emergency Department Resuscitative Thoracotomy: A Comprehensive Literature Review on Current Methods of Instruction for this Complex, Life-Saving Procedure</div><div class="pub-m">Taylor A., Kerstan A., Kromberg E., Steins H. · <em>ACOEP-RSO The Fast Track</em> · Aug 2024</div><a class="pub-doi" href="https://acoep-rso.org/the-fast-track/" target="_blank">acoep-rso.org ↗</a></div></div>
+      <div class="pub rv"><div class="pub-yr pend">PENDING</div><div><div class="pub-t">Point-of-Care Ultrasound Diagnosis of Extensive Aortic Dissection in a Resource-Limited Emergency Department in Tanzania: A Case Report</div><div class="pub-m">Steins H., Ng X., Ntabagi M., Kabwe. · <em>JEM International</em> · 2026 (Submitted &amp; Pending Acceptance)</div></div></div>
+      <div class="pub rv"><div class="pub-yr pend">PENDING</div><div><div class="pub-t">Prospective Assessment of Swimming-Induced Pulmonary Edema in Open-Water Athletes at Moderate Elevations: Incidence and Diagnostic Utility of Point-of-Care Ultrasound</div><div class="pub-m">Steins H., Patterson B., Payton M., Vidlock K. · <em>Wilderness and Environmental Medicine</em> · Submitted 2025</div></div></div>
+    </div>
+    <div class="rp-wrap">
+      <div class="rp-h rv">Active Research Projects</div>
+      <p class="rp-sub rv">Current investigations and ongoing scholarly work.</p>
+      <div class="rp-grid">
+        <div class="rp-c rv"><div class="rp-c-top"><div class="rp-c-t">SIPE in IronMan Athletes — Multi-Site POCUS Study at Altitude</div><span class="badge b-pi">PI</span></div><p>$10,000 intramural grant from Rocky Vista University. Prospective study examining incidence of swimming-induced pulmonary edema and diagnostic utility of point-of-care ultrasound at moderate and high elevations. In partnership with IronMan Races.</p></div>
+        <div class="rp-c rv d1"><div class="rp-c-top"><div class="rp-c-t">CPR in Avalanche Field Settings</div><span class="badge b-pi">PI</span></div><p>Investigating field CPR in avalanche debris with non-traditional positioning. Rocky Vista University. Poster presented at Silverton Mountain Medicine Symposium 2025.</p></div>
+        <div class="rp-c rv d2"><div class="rp-c-top"><div class="rp-c-t">Prochlorperazine vs Placebo — AMS Prophylaxis RCT</div><span class="badge b-act">Active</span></div><p>Author and Trial Coordinator. Journal of Travel Medicine grant-funded double-blind RCT. CU Altitude Research Group / University of Colorado.</p></div>
+        <div class="rp-c rv d3"><div class="rp-c-top"><div class="rp-c-t">Evaluation of En Route Care in Simulated Arctic Conditions</div><span class="badge b-pub">Complete</span></div><p>Research Assistant, Center for Combat Research, CU Anschutz. Collaboration with Defense Health Agency, U.S. Army Medical R&amp;D Command, and NSF.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUSTERE -->
+<section id="austere">
+  <div class="aust-pat"></div>
+  <div class="si aust-in">
+    <div class="sec-tag lt">Austere &amp; Resource-Limited Medicine</div>
+    <div class="aust-lede rv">Medicine doesn't stop working when the hospital is <em>three days away</em>. It just demands more of its practitioners.</div>
+    <p class="aust-sub rv">Austere medicine is the practice of delivering high-quality critical care in environments where conventional tools, teams, and infrastructure are absent or severely limited — wilderness, high-altitude expeditions, disaster zones, conflict environments, and under-resourced emergency departments worldwide. This is my primary clinical and research identity.</p>
+    <div class="ap-grid">
+      <div class="ap-c rv"><div class="ap-icon">🏔️</div><h4>Wilderness &amp; Remote Emergency Medicine</h4><p>Trained WEMT, FAWM, avalanche responder, swift water rescue, technical rope rescue. Wilderness Medicine Instructor with the Colorado Mountain Club. Conference faculty at Silverton Mountain Medicine Symposium.</p></div>
+      <div class="ap-c rv d1"><div class="ap-icon">🌍</div><h4>Resource-Limited Global EM</h4><p>Clinical and research work in austere EDs including Tanzania. Adapting evidence-based interventions to low-resource settings where POCUS replaces conventional imaging — diagnosing aortic dissection with a single probe.</p></div>
+      <div class="ap-c rv d2"><div class="ap-icon">📡</div><h4>Point-of-Care Ultrasound</h4><p>Inaugural Predoctoral POCUS Scholar at RVU. MSc curriculum development and lectures at COROM Malta. Research spanning eFAST, RUSH exam, echocardiography, MSK, soft-tissue, and wilderness applications.</p></div>
+    </div>
+    <div class="sec-tag lt" style="margin-bottom:1rem">Active Projects</div>
+    <div class="proj-list">
+      <div class="proj-row rv"><div class="pdot"></div><div><h5>SIPE at Altitude — IronMan &amp; Open Water Athletes</h5><p>Multi-site prospective study of swimming-induced pulmonary edema at moderate and high altitude. IronMan collaboration. $10,000 grant. 6 conference presentations including AMSSM and ACSM.</p></div><span class="badge b-pi">PI</span></div>
+      <div class="proj-row rv"><div class="pdot"></div><div><h5>Austere Ultrasound Curriculum — MSc in Austere Critical Care</h5><p>Developing and delivering the point-of-care ultrasound curriculum for COROM's MSc program in Malta, including echocardiography for austere critical care.</p></div><span class="badge b-act">Active</span></div>
+      <div class="proj-row rv"><div class="pdot"></div><div><h5>CPR in Avalanche Field Settings</h5><p>Principal Investigator. Evaluating non-traditional CPR positioning in simulated avalanche debris. Silverton Mountain Medicine Symposium 2025 poster presentation.</p></div><span class="badge b-pi">PI</span></div>
+      <div class="proj-row rv"><div class="pdot"></div><div><h5>Resource-Limited ED — Tanzania</h5><p>Case report and clinical work at an austere emergency department in Tanzania. POCUS-based diagnosis of extensive aortic dissection with minimal equipment. Manuscript submitted to JEM International.</p></div><span class="badge b-act">Submitted</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPEDITIONS -->
+<section id="expeditions">
+  <div class="si">
+    <div class="sec-tag lt">Expeditions &amp; Field Work</div>
+    <h2 class="sec-h lt">Expeditions &amp;<br>Field Work</h2>
+    <div class="sec-bar"></div>
+    <p class="exp-intro">My clinical and research work has taken me into genuinely austere environments — high-altitude endurance races, mountain medicine symposia, international emergency departments, mass gathering events, and wilderness settings that define why resource-limited medicine matters. Upload field photos using the buttons on each card.</p>
+    <div class="exp-grid">
+      <div class="exp-c rv">
+        <div class="exp-photo"><img src="images/ironman-sipe.jpeg" alt="IronMan SIPE Study"/></div>
+        <div class="exp-body"><div class="exp-type">High Altitude Research</div><h4>IronMan SIPE Study — Altitude Sites</h4><p>Multi-site POCUS study of swimming-induced pulmonary edema in IronMan athletes. Prospective data collection. 6 conference presentations. $10K grant.</p><span class="exp-cert">PI · RVU Grant</span></div>
+      </div>
+      <div class="exp-c rv d1">
+        <div class="exp-photo"><img src="images/tanzania.jpeg" alt="Tanzania ED"/></div>
+        <div class="exp-body"><div class="exp-type">Global Health · Field Medicine</div><h4>Resource-Limited ED — Tanzania</h4><p>Clinical and research work in an austere emergency department. POCUS diagnosis of extensive aortic dissection with minimal equipment. Case report submitted to JEM International.</p><span class="exp-cert">Case Report Submitted 2026</span></div>
+      </div>
+      <div class="exp-c rv d2">
+        <div class="exp-photo"><img src="images/silverton.jpg" alt="Silverton Mountain Medicine Symposium"/></div>
+        <div class="exp-body"><div class="exp-type">Mountain Medicine · Conference Faculty</div><h4>Silverton Mountain Medicine Symposium</h4><p>Faculty presenter and workshop leader 2024 &amp; 2025. Topics: Wilderness Ultrasound eFAST/MSK, Austere Soft Tissue Ultrasound, Avalanche Resuscitation, SIPE at Altitude. Silverton, CO.</p><span class="exp-cert">Faculty · 2024 &amp; 2025</span></div>
+      </div>
+      <div class="exp-c rv">
+        <div class="exp-photo"><img src="images/corom.jpeg" alt="College of Remote and Offshore Medicine Malta"/></div>
+        <div class="exp-body"><div class="exp-type">International Faculty · Medicine in the Mediterranean</div><h4>College of Remote &amp; Offshore Medicine — Malta</h4><p>Faculty Lecturer for MSc in Austere Critical Care. Presented on SIPE and austere implications at the Medicine in the Mediterranean Conference, 2026.</p><span class="exp-cert">Faculty · MSc Lecturer · Malta 2026</span></div>
+      </div>
+      <div class="exp-c rv d1">
+        <div class="exp-photo"><img src="images/burning-man.jpeg" alt="Burning Man Mobile ICU"/></div>
+        <div class="exp-body"><div class="exp-type">Mass Gathering · Medical Operations</div><h4>Burning Man — Mobile ICU</h4><p>Medical Operations Manager, CrowdRx. Burning Man 2018: 80,000 attendees, 35-bed ER, 10-bed ICU, 300 staff, 18 days. Designed &amp; operated 53-ft mobile ICU trailer with 14 ICU beds and 2 resuscitation bays.</p><span class="exp-cert">Medical Ops Manager · CrowdRx</span></div>
+      </div>
+      <div class="exp-c rv d2">
+        <div class="exp-photo"><img src="images/wilderness-med.jpg" alt="Wilderness Medicine"/></div>
+        <div class="exp-body"><div class="exp-type">Wilderness Medicine · Field Instruction</div><h4>Wilderness Medicine — Colorado Mountain Club</h4><p>Wilderness Medicine Instructor since 2023. Courses in Wilderness First Aid, avalanche rescue and resuscitation, and austere emergency care in mountain environments. Golden, CO.</p><span class="exp-cert">Instructor · 2023–Present</span></div>
+      </div>
+      <div class="exp-c rv">
+        <div class="exp-photo"><img src="images/covid.jpg" alt="COVID Emergency Management"/></div>
+        <div class="exp-body"><div class="exp-type">COVID-19 Response · Medical Logistics</div><h4>COVID-19 Mass Vaccination — San Mateo County</h4><p>Medical Logistics Chief for San Mateo County EOC. Mobilized clinic sites vaccinating 4,000/day — 870,000 individuals, 2 million vaccines. Coordinated distribution of 4 million pieces of PPE and an alternate care site for 400+ patients.</p><span class="exp-cert">Medical Logistics Chief · 2020–2021</span></div>
+      </div>
+      <div class="exp-c rv d1">
+        <div class="exp-photo"><img src="images/emergency-management.jpg" alt="Emergency Management"/></div>
+        <div class="exp-body"><div class="exp-type">Public Health Emergency Management</div><h4>San Mateo County Health Department — EMS Division</h4><p>Health Emergency Preparedness Manager and founder of the San Mateo County Medical Reserve Corps. Coordinated pandemic, bio-terrorism, disaster, and mass casualty preparedness. Managed $150,000 budget. Grew MRC to 100 members.</p><span class="exp-cert">Preparedness Manager · 2019–2021</span></div>
+      </div>
+      <div class="exp-c rv d2">
+        <div class="exp-photo"><img src="images/field-clinical.jpeg" alt="Field and Clinical Work"/></div>
+        <div class="exp-body"><div class="exp-type">Field &amp; Clinical Work</div><h4>Field Medicine &amp; Clinical Research</h4><p>Ongoing field-based clinical work spanning wilderness settings, endurance events, international austere environments, and clinical ultrasound research across multiple institutions and continents.</p><span class="exp-cert">Ongoing</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LECTURES -->
+<section id="lectures">
+  <div class="si">
+    <div class="sec-tag">Lectures &amp; Presentations</div>
+    <h2 class="sec-h">Teaching, Speaking<br>&amp; Knowledge Translation</h2>
+    <div class="sec-bar"></div>
+    <div class="lec-grid">
+      <div class="lec-c rv"><div class="lec-type">MSc Lecture · Faculty</div><h4>Echocardiography for Austere Critical Care &amp; Emergency Medicine</h4><p>Core lecture for the MSc in Austere Critical Care cohort.</p><div class="lec-date">2025 · College of Remote &amp; Offshore Medicine, Malta</div></div>
+      <div class="lec-c rv d1"><div class="lec-type">Conference Faculty · Workshop</div><h4>Ultrasound for the Mountain Medicine Provider</h4><p>Faculty-led hands-on eFAST and MSK ultrasound workshop.</p><div class="lec-date">2024 &amp; 2025 · Silverton Mountain Medicine Symposium</div></div>
+      <div class="lec-c rv d2"><div class="lec-type">Conference Faculty · Workshop</div><h4>Hard Decisions with Soft Tissue Ultrasound</h4><p>Soft tissue, solid organs, and tropical ultrasound in austere settings.</p><div class="lec-date">2025 · Silverton Mountain Medicine Symposium</div></div>
+      <div class="lec-c rv"><div class="lec-type">International Conference</div><h4>Swimming-Induced Pulmonary Edema: Pathology &amp; Austere Implications</h4><p>Medicine in the Mediterranean Conference. Respiratory pathology and resource-limited management.</p><div class="lec-date">2026 · Malta</div></div>
+      <div class="lec-c rv d1"><div class="lec-type">Oral Presentation · RCT</div><h4>Prochlorperazine vs Placebo for AMS Prophylaxis</h4><p>Double-blind randomized controlled trial results. Grant funded.</p><div class="lec-date">2025 · Hypoxia Conference, Lake Louise, Canada</div></div>
+      <div class="lec-c rv d2"><div class="lec-type">Sports Medicine · Oral ×2 · Poster ×2</div><h4>SIPE in IronMan Athletes — POCUS Evaluation at Altitude</h4><p>Oral and poster presentations at AMSSM 2025 on incidence, diagnostic criteria, and altitude effects.</p><div class="lec-date">2025 · American Medical Society for Sports Medicine</div></div>
+      <div class="lec-c rv"><div class="lec-type">Oral Presentation</div><h4>SIPE in IronMan Athletes: Physiology, Epidemiology &amp; Pilot Study</h4><p>CU Department of Emergency Medicine, Wilderness and Environmental Medicine Section Annual Conference.</p><div class="lec-date">2025 · University of Colorado</div></div>
+      <div class="lec-c rv d1"><div class="lec-type">Oral Presentation · Trauma</div><h4>EFAST Survey — US Ski &amp; Snowboard Team Athletes</h4><p>International Trauma Lifesaving Conference. First place, Original Research &amp; Poster — AMOS.</p><div class="lec-date">2023 · Houston, TX</div></div>
+      <div class="lec-c rv d2"><div class="lec-type">Wilderness Medicine · Course</div><h4>Wilderness First Aid &amp; Avalanche Rescue</h4><p>Colorado Mountain Club. Ongoing WFA and avalanche resuscitation instruction.</p><div class="lec-date">2023–Present · Golden, CO</div></div>
+      <div class="lec-c rv"><div class="lec-type">US Ski &amp; Snowboard Team · Workshop</div><h4>Ultrasound for the Mountain Medical Provider</h4><p>MESS Course. eFAST and point-of-care ultrasound for slope-side athlete management.</p><div class="lec-date">2024 · US Ski &amp; Snowboard</div></div>
+      <div class="lec-c rv d1"><div class="lec-type">Clinical Ultrasound · Course</div><h4>RUSH Exam, eFAST, Critical Care Echo &amp; More</h4><p>RVU Clinical Ultrasound Dept. Courses in RUSH, eFAST, critical care echocardiography, joint injection, and abscess drainage under ultrasound guidance.</p><div class="lec-date">2024 &amp; 2025 · Rocky Vista University</div></div>
+      <div class="lec-c rv d2"><div class="lec-type">CME · Stop the Bleed</div><h4>Stop the Bleed</h4><p>American College of Surgeons Trauma Quality Improvement Conference; RVU Emergency Medicine Elective.</p><div class="lec-date">2023 · 2024 · 2025</div></div>
+    </div>
+    <div class="lec-cta rv">
+      <strong>Available for speaking, teaching, and course development.</strong> I present at conferences, grand rounds, CME events, wilderness medicine courses, international symposia, and medical school programs globally. <a href="#contact">Reach out below ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="si">
+    <div class="sec-tag lt">Contact &amp; Speaking Inquiries</div>
+    <div class="c-grid">
+      <div class="c-left rv">
+        <h2>Let's Work Together</h2>
+        <p>I welcome speaking invitations, conference presentations, CME and wilderness medicine course collaborations, research partnerships, medical consulting, and media inquiries. Fill out the form — I'll be in touch promptly.</p>
+        <div class="c-items">
+          <div class="c-item"><div class="c-icon">✉️</div><div><div class="c-lbl">Email</div><div class="c-val"><a href="/cdn-cgi/l/email-protection#4f272e3d3d263c2021613c3b2a26213c0f28222e2623612c2022"><span class="__cf_email__" data-cfemail="aac2cbd8d8c3d9c5c484d9decfc3c4d9eacdc7cbc3c684c9c5c7">[email&#160;protected]</span></a></div></div></div>
+          <div class="c-item"><div class="c-icon">🎓</div><div><div class="c-lbl">Academic Profiles</div><div class="c-val"><a href="#">Google Scholar</a> &nbsp;·&nbsp; <a href="#">ORCID</a></div></div></div>
+          <div class="c-item"><div class="c-icon">💼</div><div><div class="c-lbl">LinkedIn</div><div class="c-val"><a href="#">linkedin.com/in/harrisonsteins</a></div></div></div>
+          <div class="c-item"><div class="c-icon">📍</div><div><div class="c-lbl">Available For</div><div class="c-val">Global · Remote · In-Person</div></div></div>
+          <div class="c-item"><div class="c-icon">🗣️</div><div><div class="c-lbl">Speaking Topics</div><div class="c-val" style="font-size:.8rem;font-weight:400">Austere Critical Care · POCUS · Wilderness EM · SIPE · High Altitude Medicine · Resource-Limited Global EM</div></div></div>
+        </div>
+      </div>
+      <div class="rv d1">
+        <div class="f-wrap">
+          <div class="f-row">
+            <div class="f-grp"><label>First Name</label><input type="text" id="fn" placeholder="Jane"/></div>
+            <div class="f-grp"><label>Last Name</label><input type="text" id="ln" placeholder="Smith"/></div>
+          </div>
+          <div class="f-grp"><label>Email</label><input type="email" id="fe" placeholder="jane@institution.edu"/></div>
+          <div class="f-grp"><label>Organization / Institution</label><input type="text" id="fo" placeholder="Hospital, University, Conference..."/></div>
+          <div class="f-grp"><label>Inquiry Type</label>
+            <select id="ft">
+              <option value="">Select...</option>
+              <option>Conference / Grand Rounds Speaking</option>
+              <option>CME Course or Workshop</option>
+              <option>Wilderness Medicine Course</option>
+              <option>Research Collaboration</option>
+              <option>Media / Podcast Interview</option>
+              <option>Medical Consulting</option>
+              <option>International / Global Health Project</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="f-grp"><label>Message</label><textarea id="fm" rows="4" placeholder="Tell me about your event, course, or opportunity..."></textarea></div>
+          <div class="f-foot">
+            <button class="btn btn-ember" onclick="submitForm()">Send Inquiry →</button>
+            <span class="f-note">I typically respond within 48 hours.</span>
+          </div>
+          <div id="fsuccess">✅ Message sent! I'll respond shortly.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="yr"></span> Harrison Steins, DO, MS, MSc, FAWM &nbsp;·&nbsp; Emergency Medicine Physician &amp; Researcher</p>
+  <div class="f-links">
+    <a href="#about">About</a><a href="#research">Research</a>
+    <a href="#austere">Austere Med</a><a href="#expeditions">Expeditions</a><a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+function toggleMob(){document.getElementById('mobMenu').classList.toggle('open')}
+document.addEventListener('click',e=>{
+  const m=document.getElementById('mobMenu');
+  if(m.classList.contains('open')&&!m.contains(e.target)&&!document.querySelector('.hamburger').contains(e.target))m.classList.remove('open');
+});
+
+// Scroll reveals - elements visible by default, subtle fade on scroll
+const rvEls=document.querySelectorAll('.rv');
+rvEls.forEach(el=>{el.style.opacity='1';el.style.transform='none';});
+
+// Hero photo is static - served from images/heroshot.jpg" alt="Harrison Steins"/>`;
+}
+
+// Gallery is static - photos loaded from images/ folder
+
+// Expedition photos are static - served from images/ folder
+
+// CV upload
+function handleCV(e){
+  const f=e.target.files[0];if(!f)return;
+  const url=URL.createObjectURL(f);
+  const btn=document.getElementById('cvDlBtn');
+  btn.href=url;btn.download=f.name;
+  const d=document.getElementById('cv-loaded');
+  d.style.display='block';d.style.color='var(--teal)';d.style.marginTop='.6rem';d.style.fontSize='.8rem';
+  d.textContent=`✅ Loaded: ${f.name} (session only — upload to GitHub for permanent download)`;
+}
+
+// Contact form
+function submitForm(){
+  const fn=document.getElementById('fn').value.trim();
+  const fe=document.getElementById('fe').value.trim();
+  const fm=document.getElementById('fm').value.trim();
+  if(!fn||!fe||!fm){alert('Please fill in your name, email, and message.');return;}
+  const s=encodeURIComponent(`Speaking Inquiry — ${document.getElementById('ft').value||'General'} — ${fn} ${document.getElementById('ln')
