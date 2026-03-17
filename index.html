@@ -532,8 +532,8 @@
         <p>I welcome speaking invitations, conference presentations, CME and wilderness medicine course collaborations, research partnerships, medical consulting, and media inquiries. Fill out the form — I'll be in touch promptly.</p>
         <div class="c-items">
           <div class="c-item"><div class="c-icon">✉️</div><div><div class="c-lbl">Email</div><div class="c-val"><a href="/cdn-cgi/l/email-protection#4f272e3d3d263c2021613c3b2a26213c0f28222e2623612c2022"><span class="__cf_email__" data-cfemail="aac2cbd8d8c3d9c5c484d9decfc3c4d9eacdc7cbc3c684c9c5c7">[email&#160;protected]</span></a></div></div></div>
-          <div class="c-item"><div class="c-icon">🎓</div><div><div class="c-lbl">Academic Profiles</div><div class="c-val"><a href="#">Google Scholar</a> &nbsp;·&nbsp; <a href="#">ORCID</a></div></div></div>
-          <div class="c-item"><div class="c-icon">💼</div><div><div class="c-lbl">LinkedIn</div><div class="c-val"><a href="#">linkedin.com/in/harrisonsteins</a></div></div></div>
+          <div class="c-item"><div class="c-icon">🎓</div><div><div class="c-lbl">ResearchGate &amp; ORCID</div><div class="c-val"><a href="https://www.researchgate.net/profile/Harrison-Steins" target="_blank">ResearchGate</a> &nbsp;·&nbsp; <a href="https://orcid.org/0009-0007-9924-4337" target="_blank">ORCID</a></div></div></div>
+          <div class="c-item"><div class="c-icon">💼</div><div><div class="c-lbl">LinkedIn</div><div class="c-val"><a href="https://www.linkedin.com/in/harrisonsteins" target="_blank">linkedin.com/in/harrisonsteins</a></div></div></div>
           <div class="c-item"><div class="c-icon">📍</div><div><div class="c-lbl">Available For</div><div class="c-val">Global · Remote · In-Person</div></div></div>
           <div class="c-item"><div class="c-icon">🗣️</div><div><div class="c-lbl">Speaking Topics</div><div class="c-val" style="font-size:.8rem;font-weight:400">Austere Critical Care · POCUS · Wilderness EM · SIPE · High Altitude Medicine · Resource-Limited Global EM</div></div></div>
         </div>
@@ -611,11 +611,43 @@ function handleCV(e){
 }
 
 // Contact form
-async function submitForm(){
+async async async function submitForm(){
   const fn=document.getElementById('fn').value.trim();
   const fe=document.getElementById('fe').value.trim();
   const fm=document.getElementById('fm').value.trim();
   if(!fn||!fe||!fm){alert('Please fill in your name, email, and message.');return;}
+  const btn=document.querySelector('.btn-ember');
+  btn.textContent='Sending...';btn.disabled=true;
+  try{
+    const res=await fetch('https://formspree.io/f/maqpdbyq',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        name:fn+' '+document.getElementById('ln').value,
+        email:fe,
+        organization:document.getElementById('fo').value,
+        inquiry:document.getElementById('ft').value,
+        message:fm
+      })
+    });
+    if(res.ok){
+      document.getElementById('fsuccess').style.display='block';
+      btn.textContent='Sent ✓';
+      document.getElementById('fn').value='';
+      document.getElementById('ln').value='';
+      document.getElementById('fe').value='';
+      document.getElementById('fo').value='';
+      document.getElementById('ft').value='';
+      document.getElementById('fm').value='';
+    }else{
+      alert('Something went wrong. Please email drharrisonsteins@gmail.com directly.');
+      btn.textContent='Send Inquiry →';btn.disabled=false;
+    }
+  }catch(err){
+    alert('Something went wrong. Please email drharrisonsteins@gmail.com directly.');
+    btn.textContent='Send Inquiry →';btn.disabled=false;
+  }
+}
   const btn=document.querySelector('.btn-ember');
   btn.textContent='Sending...';btn.disabled=true;
   try{
@@ -1181,8 +1213,8 @@ async function submitForm(){
         <p>I welcome speaking invitations, conference presentations, CME and wilderness medicine course collaborations, research partnerships, medical consulting, and media inquiries. Fill out the form — I'll be in touch promptly.</p>
         <div class="c-items">
           <div class="c-item"><div class="c-icon">✉️</div><div><div class="c-lbl">Email</div><div class="c-val"><a href="/cdn-cgi/l/email-protection#4f272e3d3d263c2021613c3b2a26213c0f28222e2623612c2022"><span class="__cf_email__" data-cfemail="aac2cbd8d8c3d9c5c484d9decfc3c4d9eacdc7cbc3c684c9c5c7">[email&#160;protected]</span></a></div></div></div>
-          <div class="c-item"><div class="c-icon">🎓</div><div><div class="c-lbl">Academic Profiles</div><div class="c-val"><a href="#">Google Scholar</a> &nbsp;·&nbsp; <a href="#">ORCID</a></div></div></div>
-          <div class="c-item"><div class="c-icon">💼</div><div><div class="c-lbl">LinkedIn</div><div class="c-val"><a href="#">linkedin.com/in/harrisonsteins</a></div></div></div>
+          <div class="c-item"><div class="c-icon">🎓</div><div><div class="c-lbl">ResearchGate &amp; ORCID</div><div class="c-val"><a href="https://www.researchgate.net/profile/Harrison-Steins" target="_blank">ResearchGate</a> &nbsp;·&nbsp; <a href="https://orcid.org/0009-0007-9924-4337" target="_blank">ORCID</a></div></div></div>
+          <div class="c-item"><div class="c-icon">💼</div><div><div class="c-lbl">LinkedIn</div><div class="c-val"><a href="https://www.linkedin.com/in/harrisonsteins" target="_blank">linkedin.com/in/harrisonsteins</a></div></div></div>
           <div class="c-item"><div class="c-icon">📍</div><div><div class="c-lbl">Available For</div><div class="c-val">Global · Remote · In-Person</div></div></div>
           <div class="c-item"><div class="c-icon">🗣️</div><div><div class="c-lbl">Speaking Topics</div><div class="c-val" style="font-size:.8rem;font-weight:400">Austere Critical Care · POCUS · Wilderness EM · SIPE · High Altitude Medicine · Resource-Limited Global EM</div></div></div>
         </div>
